@@ -1,0 +1,119 @@
+/* Dark Theme */
+QWidget {
+    background-color: #2b2b2b;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+QLabel {
+    color: #e1e1e1;
+    font-weight: bold;
+}
+
+QLineEdit, QTextEdit, QSpinBox, QComboBox {
+    background-color: #3b3b3b;
+    border: 1px solid #555555;
+    border-radius: 4px;
+    padding: 5px;
+    color: #ffffff;
+}
+
+QPushButton {
+    background-color: #6A0DAD;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    background-color: #8A2BE2;
+}
+
+QPushButton:pressed {
+    background-color: #4B0082;
+}
+
+QPushButton:disabled {
+    background-color: #4d4d4d;
+    color: #9f9f9f;
+}
+
+QProgressBar {
+    border: 1px solid #555555;
+    border-radius: 4px;
+    text-align: center;
+    background-color: #3b3b3b;
+}
+
+QProgressBar::chunk {
+    background-color: #6A0DAD;
+    border-radius: 3px;
+}
+
+QTabWidget::pane {
+    border: 1px solid #555555;
+    border-radius: 4px;
+}
+
+QTabBar::tab {
+    background-color: #3b3b3b;
+    color: #ffffff;
+    padding: 8px 16px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+QTabBar::tab:selected {
+    background-color: #6A0DAD;
+}
+
+QGroupBox {
+    border: 1px solid #555555;
+    border-radius: 4px;
+    margin-top: 1em;
+    padding-top: 1em;
+    font-weight: bold;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top center;
+    padding: 0 5px;
+}
+
+QScrollBar:vertical {
+    border: none;
+    background-color: #3b3b3b;
+    width: 12px;
+    margin: 0px;
+}
+
+QScrollBar::handle:vertical {
+    background-color: #555555;
+    border-radius: 6px;
+    min-height: 20px;
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    height: 0px;
+}
+
+QMenuBar {
+    background-color: #2b2b2b;
+    color: #ffffff;
+}
+
+QMenuBar::item:selected {
+    background-color: #6A0DAD;
+}
+
+QMenu {
+    background-color: #2b2b2b;
+    color: #ffffff;
+}
+
+QMenu::item:selected {
+    background-color: #6A0DAD;
+}

@@ -1,0 +1,32 @@
+# Python virtual environment
+mailer/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Compiled Qt resources
+*.qrc.py
+resources_rc.py
+
+# Environment files
+.env
+*.env
+
+# Compressed files
+*.7z
+*.zip
+*.rar
+
+# Windows specific
+Thumbs.db
