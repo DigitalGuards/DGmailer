@@ -1,6 +1,6 @@
 # DigitalGuards Mailer
 
-![DigitalGuards Mailer](screenshots/main.png)
+![DigitalGuards Mailer](https://github.com/user-attachments/assets/1add7b7a-0544-40d8-aff7-417a3af63f82)
 
 A professional email marketing tool built with Python and PyQt5. DigitalGuards Mailer provides a robust and user-friendly interface for managing email campaigns with support for multiple SMTP servers, optional proxy support, and advanced delivery controls.
 
