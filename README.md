@@ -200,16 +200,20 @@ To maintain high deliverability rates:
 ## Screenshots
 
 ### Light Theme
-![Light Theme](screenshots/light.png)
+![Light Theme](https://github.com/user-attachments/assets/ad4229d8-40ee-4911-a8a7-dcba10ff91e5)
+
 
 ### Dark Theme
-![Dark Theme](screenshots/dark.png)
+![Dark Theme](https://github.com/user-attachments/assets/7cced80b-3b86-449f-a104-6d3a7c0a3973)
+
 
 ### SMTP Configuration
-![SMTP Setup](screenshots/smtp.png)
+![SMTP Setup](https://github.com/user-attachments/assets/ca77dc99-f960-40df-8ad8-3c70a90b32f0)
+
 
 ### Email List Management
-![Email List](screenshots/email-list.png)
+![Email List](https://github.com/user-attachments/assets/69329dbd-81cf-441b-b5aa-f0bb1a51dd9e)
+
 
 ## Contributing
 
