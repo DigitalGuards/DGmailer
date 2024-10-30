@@ -1,8 +1,8 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
-    <qresource prefix="/">
-        <file>resources/images/logo.png</file>
-        <file>styles/dark.qss</file>
-        <file>styles/light.qss</file>
+    <qresource>
+        <file alias="resources/images/logo.png">resources/images/logo.png</file>
+        <file alias="styles/dark.qss">styles/dark.qss</file>
+        <file alias="styles/light.qss">styles/light.qss</file>
     </qresource>
 </RCC>

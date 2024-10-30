@@ -1,5 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication
+import views.resources_rc  # Import resources before MainWindow
 from views.main_window import MainWindow
 
 def main():

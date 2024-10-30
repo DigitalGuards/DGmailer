@@ -12,6 +12,7 @@ import pandas as pd
 from models.smtp_server import SMTPServer
 from models.email_sender import EmailSender
 from views.dialogs import AddSMTPDialog, DeliveryOptionsDialog
+from . import resources_rc  # Import from current package
 
 class MainWindow(QMainWindow):
     """Main window of the email sender application."""
