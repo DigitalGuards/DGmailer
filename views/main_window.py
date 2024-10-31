@@ -6,6 +6,7 @@ from PyQt5.QtGui import QIcon
 import pandas as pd
 from models.smtp_server import SMTPServer
 from models.email_sender import EmailSender
+from models.settings import Settings
 from views.dialogs import AddSMTPDialog, DeliveryOptionsDialog
 from . import resources_rc  # Import from current package
 from .main_window_ui import MainWindowUI
@@ -14,21 +15,26 @@ class MainWindow(MainWindowUI):
     """Main window of the email sender application."""
 
     def __init__(self):
-        super().__init__()
+        super().__init__()  # Initialize parent class
         self.smtp_servers: List[SMTPServer] = []
         self.smtp_layouts: List[QHBoxLayout] = []  # Store layouts for removal
         self.daily_limit = 0
         self.hourly_limit = 0
         self.email_sender: Optional[EmailSender] = None
-        self.settings = QSettings('DigitalGuards', 'Mailer')
+        self.settings = Settings()  # Initialize settings manager
         
+        # Set up the UI first
         self.setup_ui()
-        self.load_theme()
+        
+        # Now set up connections
         self.setup_connections()
+        
+        # Finally load settings after UI is ready
+        self.load_settings()
 
     def load_theme(self):
         """Load the saved theme or default to light theme."""
-        theme = self.settings.value('theme', 'light')
+        theme = self.settings.get_theme()
         self.change_theme(theme)
 
     def change_theme(self, theme: str):
@@ -49,8 +55,7 @@ class MainWindow(MainWindowUI):
                     self.setStyleSheet(f.read())
                     
                 # Save theme preference
-                self.settings.setValue('theme', theme)
-                self.settings.sync()
+                self.settings.set_theme(theme)
             else:
                 raise FileNotFoundError(f"Theme file not found: {theme_file}")
                 
@@ -91,6 +96,9 @@ class MainWindow(MainWindowUI):
             
             self.smtp_form_layout.addLayout(server_layout)
             self.smtp_layouts.append(server_layout)
+            
+            # Save updated SMTP servers
+            self.settings.save_smtp_servers(self.smtp_servers)
 
     def remove_smtp_server(self, smtp_server: SMTPServer, server_layout: QHBoxLayout):
         """Remove an SMTP server from both the list and UI.
@@ -111,6 +119,9 @@ class MainWindow(MainWindowUI):
         
         self.smtp_layouts.remove(server_layout)
         server_layout.deleteLater()
+        
+        # Save updated SMTP servers
+        self.settings.save_smtp_servers(self.smtp_servers)
 
     def test_smtp_server(self, smtp_server: SMTPServer):
         """Test the connection to an SMTP server."""
@@ -138,6 +149,13 @@ class MainWindow(MainWindowUI):
             options = dialog.get_delivery_options()
             self.daily_limit = options['daily_limit']
             self.hourly_limit = options['hourly_limit']
+            
+            # Save delivery options
+            self.settings.save_email_settings(
+                self.daily_limit,
+                self.hourly_limit,
+                self.emails_per_smtp_input.value()
+            )
 
     def load_emails(self):
         """Load email addresses from a file."""
@@ -176,6 +194,9 @@ class MainWindow(MainWindowUI):
         if not self.email_input.toPlainText().strip():
             QMessageBox.warning(self, "Error", "Please add email recipients.")
             return
+
+        # Save current settings before starting
+        self.save_settings()
 
         self.email_sender = EmailSender(
             smtp_servers=self.smtp_servers,
@@ -236,13 +257,72 @@ class MainWindow(MainWindowUI):
 
     def save_settings(self):
         """Save current settings to a file."""
-        # TODO: Implement settings save functionality
-        pass
+        # Save SMTP servers
+        self.settings.save_smtp_servers(self.smtp_servers)
+        
+        # Save email settings
+        self.settings.save_email_settings(
+            self.daily_limit,
+            self.hourly_limit,
+            self.emails_per_smtp_input.value()
+        )
+        
+        # Save last used values
+        self.settings.save_last_used(
+            sender_address=self.sender_address_input.text(),
+            sender_name=self.sender_name_input.text(),
+            reply_to=self.reply_to_input.text(),
+            cc=self.cc_input.text(),
+            bcc=self.bcc_input.text(),
+            subject=self.subject_input.text(),
+            body=self.body_input.toPlainText(),
+            is_html=self.html_radio.isChecked()
+        )
 
     def load_settings(self):
         """Load settings from a file."""
-        # TODO: Implement settings load functionality
-        pass
+        try:
+            # Load SMTP servers
+            self.smtp_servers = self.settings.get_smtp_servers()
+            for server in self.smtp_servers:
+                server_layout = QHBoxLayout()
+                label = QLabel(f"SMTP: {server.server}:{server.port}")
+                test_button = QPushButton("Test")
+                delete_button = QPushButton("Delete")
+                
+                test_button.clicked.connect(lambda s=server: self.test_smtp_server(s))
+                delete_button.clicked.connect(lambda s=server, l=server_layout: 
+                                           self.remove_smtp_server(s, l))
+                
+                server_layout.addWidget(label)
+                server_layout.addWidget(test_button)
+                server_layout.addWidget(delete_button)
+                
+                self.smtp_form_layout.addLayout(server_layout)
+                self.smtp_layouts.append(server_layout)
+            
+            # Load email settings
+            email_settings = self.settings.get_email_settings()
+            self.daily_limit = email_settings["daily_limit"]
+            self.hourly_limit = email_settings["hourly_limit"]
+            self.emails_per_smtp_input.setValue(email_settings["emails_per_smtp"])
+            
+            # Load last used values
+            last_used = self.settings.get_last_used()
+            self.sender_address_input.setText(last_used["sender_address"])
+            self.sender_name_input.setText(last_used["sender_name"])
+            self.reply_to_input.setText(last_used["reply_to"])
+            self.cc_input.setText(last_used["cc"])
+            self.bcc_input.setText(last_used["bcc"])
+            self.subject_input.setText(last_used["subject"])
+            self.body_input.setPlainText(last_used["body"])
+            self.html_radio.setChecked(last_used["is_html"])
+            self.plain_text_radio.setChecked(not last_used["is_html"])
+            
+            # Load theme
+            self.load_theme()
+        except Exception as e:
+            QMessageBox.warning(self, "Settings Error", f"Failed to load settings: {str(e)}")
 
     def show_about_dialog(self):
         """Show the about dialog."""

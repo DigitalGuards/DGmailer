@@ -1,0 +1,27 @@
+{
+    "theme": "dark",
+    "smtp_servers": [
+        {
+            "server": "mail.test.com",
+            "port": 587,
+            "username": "nigga1",
+            "password": "UGxhaW50ZXh0cGFzc2Z1Y2tpdA==",
+            "tls_mode": "ON / Auto"
+        }
+    ],
+    "email_settings": {
+        "daily_limit": 0,
+        "hourly_limit": 0,
+        "emails_per_smtp": 50
+    },
+    "last_used": {
+        "sender_address": "",
+        "sender_name": "",
+        "reply_to": "",
+        "cc": "",
+        "bcc": "",
+        "subject": "",
+        "body": "",
+        "is_html": false
+    }
+}

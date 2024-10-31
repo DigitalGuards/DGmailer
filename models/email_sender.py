@@ -8,7 +8,6 @@ from models.smtp_server import SMTPServer
 
 class SMTPRotator:
     """Manages SMTP server rotation with usage tracking and health checks."""
-    
     def __init__(self, smtp_servers: List[SMTPServer], emails_per_smtp: int):
         self.smtp_servers = smtp_servers
         self.emails_per_smtp = emails_per_smtp
